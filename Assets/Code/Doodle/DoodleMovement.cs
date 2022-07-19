@@ -20,13 +20,13 @@ public class DoodleMovement : MonoBehaviour
     private void OnEnable()
     {
         _input.PositionChanged += OnPositionChange;
-        //_rb.PlatformCollisionEntered += OnColliderEnter;
+        _rb.PlatformCollisionEntered += OnColliderEnter;
     }
 
     private void OnDisable()
     {
         _input.PositionChanged -= OnPositionChange;
-        //_rb.PlatformCollisionEntered -= OnColliderEnter;
+        _rb.PlatformCollisionEntered -= OnColliderEnter;
     }
 
     private void OnPositionChange(Vector3 position)
@@ -34,21 +34,12 @@ public class DoodleMovement : MonoBehaviour
         transform.position += position;
     }
 
-   // private void OnColliderEnter(Collider collision)
-   // {
-   //    if (collision.gameObject.TryGetComponent(out Platform platform))
-   //    {
-   //         _rb.AddVelocity(new Vector3(0, SetJumpModify(platform.Bouncness), 0));
-   //         Debug.Log("Itouch");
-   //     }
-   // }
-
-    private void OnCollisionEnter(Collision collision)
+    private void OnColliderEnter(Collider collision)
     {
         if (collision.gameObject.TryGetComponent(out Platform platform))
         {
-            _rigidbody.velocity = new Vector3(0, SetJumpModify(platform.Bouncness), 0);
-            Debug.Log("Itouch");
+           _rb.SetVelocity(new Vector3(0, SetJumpModify(platform.Bouncness), 0));
+           Debug.Log("Itouch");
         }
     }
     public float SetJumpModify(float delta)

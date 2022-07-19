@@ -533,8 +533,8 @@ Rigidbody:
   m_Mass: 2
   m_Drag: 0
   m_AngularDrag: 0.05
-  m_UseGravity: 1
-  m_IsKinematic: 0
+  m_UseGravity: 0
+  m_IsKinematic: 1
   m_Interpolate: 0
   m_Constraints: 112
   m_CollisionDetection: 0
@@ -660,15 +660,15 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2005634979}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 91707a9df660cdc4d9f3d780bedd949d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   _gravityScale: 9.82
   _force: {x: 0, y: -1, z: 0}
-  _massInKilo: 1000
-  _collisionDetectDistance: 1
+  _massInKilo: 200
+  _collisionDetectDistance: 0.5
   _platformLayer:
     serializedVersion: 2
     m_Bits: 256

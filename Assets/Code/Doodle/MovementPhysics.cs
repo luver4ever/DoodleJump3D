@@ -15,6 +15,8 @@ public class MovementPhysics : MonoBehaviour
     [SerializeField] private float _rayDistance;
     [SerializeField] private Transform _rayPoint;
 
+    private bool _isEntered;
+
     private Vector3 _acceleration, _velocity, _position;
 
     public event Action<Collider> PlatformCollisionEntered;
@@ -35,7 +37,9 @@ public class MovementPhysics : MonoBehaviour
     }
     private void FixedUpdate()
     {
-        _acceleration = _force / _massInKilo * _gravityScale;
+        CollisionEnter();
+
+        _acceleration = _force / (_massInKilo * _gravityScale);
 
         _velocity += _acceleration * Time.fixedDeltaTime;
 
@@ -43,27 +47,36 @@ public class MovementPhysics : MonoBehaviour
 
         _position += _velocity * Time.fixedDeltaTime;
 
-        CheckCollision();
-
         transform.position += _position;
     }
 
-    private void CheckCollision()
+    private void CollisionEnter()
     {
         var ray = new Ray(_rayPoint.position, Vector3.down * _rayDistance);
 
         if (Physics.Raycast(ray, out RaycastHit hit, _rayDistance, _platformLayer))
         {
-            if (Mathf.Abs((_rayPoint.position - hit.transform.position).magnitude) < _collisionDetectDistance)
-            {
+
+             if (Mathf.Abs((_rayPoint.position - hit.transform.position).magnitude) < _collisionDetectDistance)
+             {
+                _isEntered = true;
                 Debug.Log("ITouch");
                 PlatformCollisionEntered?.Invoke(hit.collider);
-            }
+             }
         }
     }
-    public void AddVelocity(Vector3 velocity)
+    public void SetVelocity(Vector3 velocity)
     {
-        _velocity += velocity;
+        if(_isEntered == true)
+        {
+            _velocity = velocity / 50;
+            _isEntered = false;
+        }
+    }
+
+    public void AddAcceleration(Vector3 acceleration)
+    {
+
     }
 
     private void OnDrawGizmos()
